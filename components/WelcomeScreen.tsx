@@ -188,12 +188,12 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onGetStarted }) => {
                 <motion.div
                   key={cap.label}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="flex items-center gap-3 px-6 py-3 rounded-xl bg-white border border-zinc-200 shadow-md"
+                  className="flex items-center gap-3 px-6 py-3 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm shadow-md shadow-black/20"
                 >
                   <Icon className="h-5 w-5 text-red-500" strokeWidth={2} />
                   <div className="text-left">
-                    <div className="text-xs text-zinc-500 font-medium">{cap.label}</div>
-                    <div className="text-sm font-bold text-zinc-900">{cap.count}</div>
+                    <div className="text-xs text-white/70 font-medium">{cap.label}</div>
+                    <div className="text-sm font-bold text-white">{cap.count}</div>
                   </div>
                 </motion.div>
               );

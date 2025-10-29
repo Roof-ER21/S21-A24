@@ -36,12 +36,12 @@ export function StatusDashboard() {
         className={`
           fixed bottom-6 right-6 z-50
           flex items-center gap-2 px-4 py-3 rounded-full
-          shadow-lg transition-all hover:scale-105
+          shadow-lg transition-all hover:scale-105 backdrop-blur-md border border-white/10
           ${budgetAlert?.level === 'exceeded' || budgetAlert?.level === 'critical'
-            ? 'bg-red-500 text-white'
+            ? 'bg-red-600 text-white'
             : budgetAlert?.level === 'warning'
-            ? 'bg-yellow-500 text-black'
-            : 'bg-blue-500 text-white'
+            ? 'bg-yellow-400 text-black'
+            : 'bg-white/10 text-white'
           }
         `}
       >
