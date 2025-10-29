@@ -394,7 +394,8 @@ const ChatPanel: React.FC = () => {
                 transition={{ duration: 0.3 }}
                 className="h-full overflow-y-auto pr-2 pb-40 md:pb-40 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-700 hover:scrollbar-thumb-zinc-600"
               >
-                <div className="flex flex-col space-y-4 pb-4">
+                <div className="min-h-[calc(100vh-180px)] flex flex-col justify-end">
+                  <div className="flex flex-col space-y-4 pb-4">
                   <AnimatePresence initial={false}>
                     {messages.map((msg, index) => (
                       <MessageBubble
@@ -416,6 +417,7 @@ const ChatPanel: React.FC = () => {
                     </motion.div>
                   )}
                   <div ref={messagesEndRef} />
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -440,7 +442,7 @@ const ChatPanel: React.FC = () => {
 
         {/* Input Form (sticky on mobile) */}
         <div
-          className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-gradient-to-t from-black/95 via-black/80 to-black/0 backdrop-blur-xl"
+          className="fixed bottom-0 left-0 right-0 z-[60] border-t border-white/10 bg-gradient-to-t from-black/95 via-black/80 to-black/0 backdrop-blur-xl"
           style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         >
           <div className="max-w-6xl mx-auto px-3 md:px-0 py-2 md:py-0">
@@ -451,7 +453,7 @@ const ChatPanel: React.FC = () => {
               onSubmit={handleSendMessage}
               className="relative"
             >
-              <div className="flex items-center gap-2 p-2 md:p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl">
+              <div className="flex items-center gap-2 p-2 md:p-3 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl">
                 <div className="flex-1 relative">
                   <Input
                     type="text"
