@@ -372,7 +372,7 @@ const ChatPanel: React.FC = () => {
         </AnimatePresence>
 
         {/* Messages Area or Welcome Screen */}
-        <div className="flex-1 overflow-hidden mb-4 md:mb-6 mt-8 md:mt-10">
+        <div className="flex-1 overflow-hidden mb-4 md:mb-6 mt-12 md:mt-14">
           <AnimatePresence mode="wait">
             {showWelcome ? (
               <motion.div
@@ -392,7 +392,7 @@ const ChatPanel: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="h-full overflow-y-auto pr-2 pb-36 md:pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-700 hover:scrollbar-thumb-zinc-600"
+                className="h-full overflow-y-auto pr-2 pb-40 md:pb-40 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-700 hover:scrollbar-thumb-zinc-600"
               >
                 <div className="flex flex-col space-y-4 pb-4">
                   <AnimatePresence initial={false}>
@@ -440,7 +440,7 @@ const ChatPanel: React.FC = () => {
 
         {/* Input Form (sticky on mobile) */}
         <div
-          className="fixed bottom-0 left-0 right-0 z-40 md:relative md:z-auto md:bottom-auto md:left-auto md:right-auto border-t border-white/10 bg-gradient-to-t from-black/95 via-black/80 to-black/0 backdrop-blur-xl md:bg-transparent md:border-0"
+          className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-gradient-to-t from-black/95 via-black/80 to-black/0 backdrop-blur-xl"
           style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         >
           <div className="max-w-6xl mx-auto px-3 md:px-0 py-2 md:py-0">
