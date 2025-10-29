@@ -303,6 +303,9 @@ const ChatPanel: React.FC = () => {
         className="absolute inset-0 pointer-events-none"
       />
 
+      {/* Subtle top gradient to separate header */}
+      <div className="pointer-events-none fixed top-14 left-0 right-0 h-10 bg-gradient-to-b from-black/40 to-transparent z-20 md:hidden" />
+
       {/* Main Content */}
       <div className="relative z-10 flex flex-col h-full p-4 md:p-6 max-w-6xl mx-auto w-full">
         {/* Header */}
@@ -389,7 +392,7 @@ const ChatPanel: React.FC = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="h-full overflow-y-auto pr-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-700 hover:scrollbar-thumb-zinc-600"
+                className="h-full overflow-y-auto pr-2 pb-36 md:pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-700 hover:scrollbar-thumb-zinc-600"
               >
                 <div className="flex flex-col space-y-4 pb-4">
                   <AnimatePresence initial={false}>
@@ -435,68 +438,75 @@ const ChatPanel: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Input Form */}
-        <motion.form
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          onSubmit={handleSendMessage}
-          className="relative"
+        {/* Input Form (sticky on mobile) */}
+        <div
+          className="fixed bottom-0 left-0 right-0 z-40 md:relative md:z-auto md:bottom-auto md:left-auto md:right-auto border-t border-white/10 bg-gradient-to-t from-black/95 via-black/80 to-black/0 backdrop-blur-xl md:bg-transparent md:border-0"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         >
-          <div className="flex items-center gap-2 p-2 md:p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl">
-            <div className="flex-1 relative">
-              <Input
-                type="text"
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                placeholder={isVoiceRecording ? "Listening..." : "Type your message..."}
-                className="h-12 md:h-12 bg-transparent border-transparent focus:ring-2 focus:ring-[var(--s21-secondary)]/40 text-white placeholder:text-white/50"
-                disabled={isLoading || isVoiceRecording}
-              />
-              {userInput && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
-                >
-                  <Sparkles className="h-4 w-4 text-[var(--s21-secondary)]" />
+          <div className="max-w-6xl mx-auto px-3 md:px-0 py-2 md:py-0">
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              onSubmit={handleSendMessage}
+              className="relative"
+            >
+              <div className="flex items-center gap-2 p-2 md:p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl">
+                <div className="flex-1 relative">
+                  <Input
+                    type="text"
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.target.value)}
+                    placeholder={isVoiceRecording ? "Listening..." : "Type your message..."}
+                    className="h-12 md:h-12 bg-transparent border-transparent focus:ring-2 focus:ring-[var(--s21-secondary)]/40 text-white placeholder:text-white/50"
+                    disabled={isLoading || isVoiceRecording}
+                  />
+                  {userInput && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                    >
+                      <Sparkles className="h-4 w-4 text-[var(--s21-secondary)]" />
+                    </motion.div>
+                  )}
+                </div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button
+                    type="button"
+                    onClick={handleToggleVoiceRecording}
+                    variant={isVoiceRecording ? "default" : "secondary"}
+                    size="icon"
+                    className={`h-12 w-12 rounded-xl ${
+                      isVoiceRecording
+                        ? 'bg-gradient-to-br from-[var(--s21-secondary)] to-[#7f1d1d] shadow-lg shadow-red-600/30 animate-pulse text-white'
+                        : 'bg-white/10 hover:bg-white/20 text-white'
+                    }`}
+                    disabled={isLoading}
+                  >
+                    <Mic className="h-5 w-5" strokeWidth={2.5} />
+                  </Button>
                 </motion.div>
-              )}
-            </div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                type="button"
-                onClick={handleToggleVoiceRecording}
-                variant={isVoiceRecording ? "default" : "secondary"}
-                size="icon"
-                className={`h-12 w-12 rounded-xl ${
-                  isVoiceRecording
-                    ? 'bg-gradient-to-br from-[var(--s21-secondary)] to-[#7f1d1d] shadow-lg shadow-red-600/30 animate-pulse text-white'
-                    : 'bg-white/10 hover:bg-white/20 text-white'
-                }`}
-                disabled={isLoading}
-              >
-                <Mic className="h-5 w-5" strokeWidth={2.5} />
-              </Button>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                type="submit"
-                disabled={!userInput.trim() || isLoading || isVoiceRecording}
-                className="h-12 px-6 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isLoading ? (
-                  <Spinner />
-                ) : (
-                  <>
-                    <Send className="h-5 w-5 mr-2" strokeWidth={2.5} />
-                    Send
-                  </>
-                )}
-              </Button>
-            </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button
+                    type="submit"
+                    disabled={!userInput.trim() || isLoading || isVoiceRecording}
+                    className="h-12 px-6 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? (
+                      <Spinner />
+                    ) : (
+                      <>
+                        <Send className="h-5 w-5 mr-2" strokeWidth={2.5} />
+                        Send
+                      </>
+                    )}
+                  </Button>
+                </motion.div>
+              </div>
+            </motion.form>
           </div>
-        </motion.form>
+        </div>
       </div>
 
       {/* Roleplay Modal */}
