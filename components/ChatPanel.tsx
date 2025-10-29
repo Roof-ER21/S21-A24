@@ -319,6 +319,7 @@ const ChatPanel: React.FC = () => {
           <div className="sa21-title">S21 FIELD // Assistant</div>
         </div>
         <div className="sa21-actions-bar">
+          <a className="sa21-topbtn" href="#chat">Home</a>
           <div className="sa21-status" title="Systems active"><span className="sa21-status-dot"/> Online</div>
           <button className="sa21-topbtn" onClick={() => setShowStateSelector(!showStateSelector)}>State</button>
           <button className="sa21-topbtn" onClick={() => setShowRoleplayModal(true)}>Train</button>
