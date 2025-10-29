@@ -309,7 +309,7 @@ const ChatPanel: React.FC = () => {
       {/* Main Content */}
       <div className="relative z-10 flex flex-col h-full p-4 md:p-6 max-w-6xl mx-auto w-full">
         {/* Header */}
-        <div className="mb-4 md:mb-6">
+        <div className="mb-6 md:mb-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
             <div className="min-w-0">
               <div className="s21-header-title truncate">S21 CORE</div>
@@ -372,7 +372,7 @@ const ChatPanel: React.FC = () => {
         </AnimatePresence>
 
         {/* Messages Area or Welcome Screen */}
-        <div className="flex-1 overflow-hidden mb-4 md:mb-6 mt-4">
+        <div className="flex-1 overflow-hidden mb-4 md:mb-6 mt-8 md:mt-10">
           <AnimatePresence mode="wait">
             {showWelcome ? (
               <motion.div

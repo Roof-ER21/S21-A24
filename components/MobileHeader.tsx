@@ -199,17 +199,21 @@ function CloseOnOutside({ isOpen, onClose, drawerRef, triggerRef }: { isOpen: bo
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    const onDown = (e: MouseEvent) => {
+    const onDown = (e: Event) => {
       const target = e.target as Node;
       if (drawerRef.current?.contains(target)) return;
       if (triggerRef.current?.contains(target)) return;
       onClose();
     };
     document.addEventListener('keydown', onKey);
-    document.addEventListener('mousedown', onDown);
+    document.addEventListener('mousedown', onDown as EventListener);
+    document.addEventListener('pointerdown', onDown as EventListener, { passive: true });
+    document.addEventListener('touchstart', onDown as EventListener, { passive: true });
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('mousedown', onDown as EventListener);
+      document.removeEventListener('pointerdown', onDown as EventListener);
+      document.removeEventListener('touchstart', onDown as EventListener);
     };
   }, [isOpen, onClose, drawerRef, triggerRef]);
   return null;
