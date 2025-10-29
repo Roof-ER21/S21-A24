@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import '../src/sa21-chat.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { connectTranscriptionStream } from '../services/geminiService';
 import { LiveSession, LiveServerMessage } from '@google/genai';
@@ -290,225 +291,86 @@ const ChatPanel: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full relative overflow-hidden">
-      <motion.div
-        animate={{
-          background: [
-            'radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.08) 0%, transparent 50%)',
-            'radial-gradient(circle at 80% 70%, rgba(220, 38, 38, 0.08) 0%, transparent 50%)',
-            'radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.08) 0%, transparent 50%)',
-          ],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-        className="absolute inset-0 pointer-events-none"
-      />
-
-      {/* Subtle top gradient to separate header */}
-      <div className="pointer-events-none fixed top-14 left-0 right-0 h-10 bg-gradient-to-b from-black/40 to-transparent z-20 md:hidden" />
-
-      {/* Main Content */}
-      <div className="relative z-10 flex flex-col h-full p-4 md:p-6 max-w-6xl mx-auto w-full">
-        {/* Header */}
-        <div className="mb-6 md:mb-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
-            <div className="min-w-0">
-              <div className="s21-header-title truncate">S21 CORE</div>
-              <div className="s21-header-subtitle">Field Assistant</div>
-            </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* State Selector Toggle */}
-              <Button
-                type="button"
-                onClick={() => setShowStateSelector(!showStateSelector)}
-                variant="outline"
-                size="sm"
-                className={`h-8 px-3 rounded-lg ${
-                  selectedState
-                    ? 'bg-[var(--s21-secondary)]/90 text-white border-transparent hover:brightness-110'
-                    : 'bg-white/5 text-white/90 border-white/20 hover:bg-white/10'
-                }`}
-                title="State-specific codes"
-              >
-                <MapPin className="h-3.5 w-3.5 mr-1" />
-                {selectedState || 'State'}
-              </Button>
-
-              {/* Roleplay Modal Toggle */}
-              <Button
-                type="button"
-                onClick={() => setShowRoleplayModal(true)}
-                size="sm"
-                className="h-8 px-3 rounded-lg"
-                title="Agnes 24 Training"
-              >
-                <GraduationCap className="h-3.5 w-3.5 mr-1" />
-                Train
-              </Button>
-
-              <div className="s21-provider-pill">
-                <Zap className="h-3.5 w-3.5 text-[var(--s21-secondary)]" />
-                <span>Provider:</span>
-                <Badge variant="success" className="text-xs">{currentProvider || 'Auto'}</Badge>
-              </div>
-            </div>
-          </div>
+    <div className="sa21-root">
+      {/* Header */}
+      <div className="sa21-header">
+        <div className="sa21-logo-row">
+          <div className="sa21-logo">ROOF ER</div>
+          <div className="sa21-title">S21 FIELD // Assistant</div>
         </div>
+        <div className="sa21-logo-row">
+          <div className="sa21-status"><span className="sa21-status-dot"/> Online</div>
+        </div>
+      </div>
 
-        {/* State Selector Panel */}
-        <AnimatePresence>
-          {showStateSelector && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mb-4 overflow-hidden"
-            >
-              <StateSelector
-                onStateChange={(state) => setSelectedState(state || null)}
-                className="s21-card-glass rounded-xl p-4"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {/* Main */}
+      <div className="sa21-main">
+        {/* Quick Actions */}
+        <aside className="sa21-quick">
+          <h3>Quick Actions</h3>
+          <button className="qa-btn" onClick={() => setUserInput('Summarize this inspection note for the homeowner.')}>
+            Summarize note
+          </button>
+          <button className="qa-btn" onClick={() => setUserInput('Draft an email to the adjuster requesting additional photos of the roof valley.')}>Email adjuster</button>
+          <button className="qa-btn" onClick={() => setUserInput('What are GAF Timberline HDZ shingle specs?')}>GAF HDZ specs</button>
+          <button className="qa-btn" onClick={() => setUserInput('Write a script for a door-to-door introduction after a hailstorm.')}>Sales script</button>
+        </aside>
 
-        {/* Messages Area or Welcome Screen */}
-        <div className="flex-1 overflow-hidden mb-4 md:mb-6 mt-12 md:mt-14">
-          <AnimatePresence mode="wait">
-            {showWelcome ? (
-              <motion.div
-                key="welcome"
-                initial={{ opacity: 1, scale: 1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                className="h-full bg-transparent"
-              >
-                <WelcomeScreen onGetStarted={handleWelcomeGetStarted} />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="messages"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="h-full overflow-y-auto pr-2 pb-40 md:pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-zinc-700 hover:scrollbar-thumb-zinc-600"
-              >
-                <div className="min-h-[calc(100vh-180px)] flex flex-col justify-end">
-                  <div className="flex flex-col space-y-4 pb-4">
-                  <AnimatePresence initial={false}>
-                    {messages.map((msg, index) => (
-                      <MessageBubble
-                        key={msg.id}
-                        id={msg.id}
-                        text={msg.text}
-                        sender={msg.sender}
-                        index={index}
-                      />
-                    ))}
-                  </AnimatePresence>
-                  {isLoading && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                    >
-                      <TypingIndicator />
-                    </motion.div>
-                  )}
-                  <div ref={messagesEndRef} />
+        {/* Chat Column */}
+        <section className="sa21-chat">
+          <div className="sa21-chat-header">Chat</div>
+
+          {/* Conversation */}
+          <div className="sa21-convo" id="conversation">
+            <div className="sa21-convo-bottom">
+              <div className="sa21-msg">
+                <div className="avatar">S21</div>
+                <div>
+                  <div className="bubble">
+                    Hey there! I'm S21, your AI-powered roofing expert. I've got instant access to 123+ industry documents and I'm running on 4 different AI systems working together to give you the best answers. Whether it's GAF product specs, sales scripts, or handling tough customer questions – I've got your back. What can I help with today?
                   </div>
+                  <div className="sa21-time">{new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Voice Error */}
-        <AnimatePresence>
-          {voiceError && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="mb-3"
-            >
-              <div className="bg-black/50 border border-[var(--s21-secondary)]/30 rounded-lg p-3 text-red-300 text-sm text-center">
-                {voiceError}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Input Form (sticky on mobile) */}
-        <div
-          className="fixed bottom-0 left-0 right-0 z-[60] md:relative md:z-auto md:bottom-auto md:left-auto md:right-auto md:bg-transparent md:border-0 border-t border-white/10 bg-gradient-to-t from-black/95 via-black/80 to-black/0 backdrop-blur-xl"
-          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-        >
-          <div className="max-w-6xl mx-auto px-3 md:px-0 py-2 md:py-0">
-            <motion.form
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              onSubmit={handleSendMessage}
-              className="relative"
-            >
-              <div className="flex items-center gap-2 p-2 md:p-3 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-xl shadow-2xl">
-                <div className="flex-1 relative">
-                  <Input
-                    type="text"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.target.value)}
-                    placeholder={isVoiceRecording ? "Listening..." : "Type your message..."}
-                    className="h-12 md:h-12 bg-transparent border-transparent focus:ring-2 focus:ring-[var(--s21-secondary)]/40 text-white placeholder:text-white/50"
-                    disabled={isLoading || isVoiceRecording}
-                  />
-                  {userInput && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
-                    >
-                      <Sparkles className="h-4 w-4 text-[var(--s21-secondary)]" />
-                    </motion.div>
-                  )}
+              {messages.map((msg, index) => (
+                <div key={msg.id} className={`sa21-msg ${msg.sender === 'user' ? 'user' : ''}`}>
+                  {msg.sender !== 'user' && <div className="avatar">S21</div>}
+                  <div>
+                    <div className="bubble">{msg.text}</div>
+                    <div className="sa21-time">{new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
+                  </div>
+                  {msg.sender === 'user' && <div className="avatar">YOU</div>}
                 </div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    type="button"
-                    onClick={handleToggleVoiceRecording}
-                    variant={isVoiceRecording ? "default" : "secondary"}
-                    size="icon"
-                    className={`h-12 w-12 rounded-xl ${
-                      isVoiceRecording
-                        ? 'bg-gradient-to-br from-[var(--s21-secondary)] to-[#7f1d1d] shadow-lg shadow-red-600/30 animate-pulse text-white'
-                        : 'bg-white/10 hover:bg-white/20 text-white'
-                    }`}
-                    disabled={isLoading}
-                  >
-                    <Mic className="h-5 w-5" strokeWidth={2.5} />
-                  </Button>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button
-                    type="submit"
-                    disabled={!userInput.trim() || isLoading || isVoiceRecording}
-                    className="h-12 px-6 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? (
-                      <Spinner />
-                    ) : (
-                      <>
-                        <Send className="h-5 w-5 mr-2" strokeWidth={2.5} />
-                        Send
-                      </>
-                    )}
-                  </Button>
-                </motion.div>
-              </div>
-            </motion.form>
+              ))}
+              {isLoading && (
+                <div className="sa21-msg">
+                  <div className="avatar">S21</div>
+                  <div className="bubble">Thinking…</div>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+
+          {/* Composer */}
+          <div className="sa21-footer">
+            <form onSubmit={handleSendMessage}>
+              <div className="sa21-input">
+                <textarea
+                  ref={el => { if (el) el.style.height = 'auto'; }}
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(e as any); } }}
+                  placeholder="Ask me anything about roofing, sales, products, or field work..."
+                  rows={1}
+                />
+                <div className="sa21-actions">
+                  <button type="button" className="sa21-btn" title="Voice" onClick={handleToggleVoiceRecording}>🎤</button>
+                  <button type="submit" className="sa21-btn send" disabled={!userInput.trim() || isLoading}>➤</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
       </div>
 
       {/* Roleplay Modal */}

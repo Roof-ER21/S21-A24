@@ -38,15 +38,20 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen h-screen font-sans s21-main-bg relative">
-      {/* Mobile header */}
-      <MobileHeader activePanel={activePanel} setActivePanel={setActivePanel} />
+      {/* Mobile header (hide on Chat to allow custom header) */}
+      {activePanel !== 'chat' && (
+        <MobileHeader activePanel={activePanel} setActivePanel={setActivePanel} />
+      )}
 
       {/* Background grid */}
       <div className="s21-grid"></div>
 
       {/* Desktop layout */}
       <div className="md:flex h-full pt-20 md:pt-0">
-        <Sidebar activePanel={activePanel} setActivePanel={setActivePanel} />
+        {/* Hide global sidebar on Chat so page can use its own quick actions */}
+        {activePanel !== 'chat' && (
+          <Sidebar activePanel={activePanel} setActivePanel={setActivePanel} />
+        )}
         <main className="flex-1 overflow-auto">
           {renderPanel()}
         </main>
