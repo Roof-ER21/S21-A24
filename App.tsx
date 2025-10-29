@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatPanel from './components/ChatPanel';
 import ImageAnalysisPanel from './components/ImageAnalysisPanel';
@@ -14,6 +14,18 @@ type PanelType = 'chat' | 'image' | 'transcribe' | 'email' | 'maps' | 'live' | '
 
 const App: React.FC = () => {
   const [activePanel, setActivePanel] = useState<PanelType>('chat');
+
+  // Sync panel with URL hash so in-page links (from Chat menu) can navigate
+  useEffect(() => {
+    const parseHash = () => {
+      const hash = (window.location.hash || '').replace('#', '') as PanelType;
+      const valid: PanelType[] = ['chat', 'image', 'transcribe', 'email', 'maps', 'live', 'knowledge'];
+      if (valid.includes(hash)) setActivePanel(hash);
+    };
+    parseHash();
+    window.addEventListener('hashchange', parseHash);
+    return () => window.removeEventListener('hashchange', parseHash);
+  }, []);
 
   const renderPanel = () => {
     switch (activePanel) {

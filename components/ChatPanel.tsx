@@ -31,8 +31,10 @@ const ChatPanel: React.FC = () => {
   const [showWelcome, setShowWelcome] = useState(true);
   const [showStateSelector, setShowStateSelector] = useState(false);
   const [showRoleplayModal, setShowRoleplayModal] = useState(false);
+  const [showAppMenu, setShowAppMenu] = useState(false);
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const appMenuRef = useRef<HTMLDivElement | null>(null);
 
   // Refs for voice transcription
   const sessionPromiseRef = useRef<Promise<LiveSession> | null>(null);
@@ -102,6 +104,24 @@ const ChatPanel: React.FC = () => {
   };
 
   useEffect(scrollToBottom, [messages]);
+
+  // close app menu on outside click / Esc
+  useEffect(() => {
+    if (!showAppMenu) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setShowAppMenu(false);
+    const onDown = (e: Event) => {
+      const t = e.target as Node;
+      if (appMenuRef.current && !appMenuRef.current.contains(t)) setShowAppMenu(false);
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onDown as EventListener);
+    document.addEventListener('touchstart', onDown as EventListener, { passive: true });
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onDown as EventListener);
+      document.removeEventListener('touchstart', onDown as EventListener);
+    };
+  }, [showAppMenu]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -293,14 +313,34 @@ const ChatPanel: React.FC = () => {
   return (
     <div className="sa21-root">
       {/* Header */}
-      <div className="sa21-header">
+      <div className="sa21-header" style={{ position: 'relative' }}>
         <div className="sa21-logo-row">
           <div className="sa21-logo">ROOF ER</div>
           <div className="sa21-title">S21 FIELD // Assistant</div>
         </div>
-        <div className="sa21-logo-row">
-          <div className="sa21-status"><span className="sa21-status-dot"/> Online</div>
+        <div className="sa21-actions-bar">
+          <div className="sa21-status" title="Systems active"><span className="sa21-status-dot"/> Online</div>
+          <button className="sa21-topbtn" onClick={() => setShowStateSelector(!showStateSelector)}>State</button>
+          <button className="sa21-topbtn" onClick={() => setShowRoleplayModal(true)}>Train</button>
+          <button className="sa21-topbtn" onClick={() => setShowAppMenu(v => !v)}>Apps ▾</button>
         </div>
+        {showAppMenu && (
+          <div className="sa21-app-menu" ref={appMenuRef as any}>
+            {[
+              { id: 'chat', label: 'Chat' },
+              { id: 'image', label: 'Image Analysis' },
+              { id: 'transcribe', label: 'Transcription' },
+              { id: 'email', label: 'Email' },
+              { id: 'maps', label: 'Maps' },
+              { id: 'live', label: 'Live' },
+              { id: 'knowledge', label: 'Knowledge Base' },
+            ].map(it => (
+              <div key={it.id} className="item" onClick={() => { window.location.hash = `#${it.id}`; setShowAppMenu(false); }}>
+                {it.label}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Main */}
