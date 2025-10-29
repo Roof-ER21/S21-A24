@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, MessageSquare, Image, Mic, Mail, Map, Radio, BookOpen } from 'lucide-react';
-import Logo from './icons/Logo';
+import BrandLogo from './icons/BrandLogo';
 import { cn } from '../lib/utils';
 
 type PanelType = 'chat' | 'image' | 'transcribe' | 'email' | 'maps' | 'live' | 'knowledge';
@@ -34,16 +34,16 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ activePanel, setActivePanel
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className="md:hidden fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/10 mobile-pt-safe"
-        style={{ background: 'linear-gradient(180deg, #1a1a2e 0%, #0f3460 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #0d0d0d 0%, #1f1f1f 100%)' }}
       >
         <div className="flex items-center justify-between px-4 py-3">
           {/* Logo & Title */}
           <div className="flex items-center gap-3">
             <motion.div
               whileTap={{ scale: 0.95 }}
-              className="h-10 w-10 rounded-xl bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-lg shadow-red-600/30 glow-red-subtle touch-target"
+              className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#c1121f] to-[#7f1d1d] flex items-center justify-center shadow-lg shadow-red-600/30 glow-red-subtle touch-target"
             >
-              <Logo className="h-5 w-5" />
+              <BrandLogo className="h-5 w-5" />
             </motion.div>
             <div>
               <h1 className="text-base font-bold" style={{ fontFamily: 'Rajdhani, Orbitron, sans-serif' }}>
@@ -108,13 +108,13 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ activePanel, setActivePanel
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="md:hidden fixed top-0 right-0 bottom-0 w-[280px] backdrop-blur-xl border-l border-white/10 z-50 overflow-y-auto"
-              style={{ background: 'linear-gradient(180deg, #1a1a2e 0%, #0f3460 100%)' }}
+              style={{ background: 'linear-gradient(180deg, #0d0d0d 0%, #1f1f1f 100%)' }}
             >
               {/* Header */}
               <div className="p-6 border-b border-white/10">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-lg shadow-red-600/30">
-                    <Logo className="h-6 w-6" />
+                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-[#c1121f] to-[#7f1d1d] flex items-center justify-center shadow-lg shadow-red-600/30">
+                    <BrandLogo className="h-6 w-6" />
                   </div>
                   <div>
                     <h2 className="text-lg font-bold s21-header-title">S21 CORE</h2>

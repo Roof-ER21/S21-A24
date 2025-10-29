@@ -104,13 +104,13 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ id, text, sender, timesta
           className={cn(
             "relative rounded-2xl px-4 py-3 md:px-5 md:py-3.5 shadow-lg transition-all duration-300 tap-feedback touch-target",
             isUser
-              ? 'bg-gradient-to-br from-[#e94560] via-[#e94560] to-[#ff6b88] text-white shadow-[rgba(233,69,96,0.2)] border border-red-500/20'
+              ? 'bg-gradient-to-br from-[#c1121f] via-[#c1121f] to-[#7f1d1d] text-white shadow-[rgba(193,18,31,0.2)] border border-red-500/20'
               : 'bg-[rgba(255,255,255,0.03)] text-white border border-white/10'
           )}
         >
           {/* Accent underline for bot messages */}
           {!isUser && (
-            <div className="absolute left-3 right-3 -bottom-px h-[2px] bg-gradient-to-r from-transparent via-[#e94560]/50 to-transparent rounded-b-2xl" />
+            <div className="absolute left-3 right-3 -bottom-px h-[2px] bg-gradient-to-r from-transparent via-[#c1121f]/50 to-transparent rounded-b-2xl" />
           )}
 
           {/* Sparkle effect for user messages */}

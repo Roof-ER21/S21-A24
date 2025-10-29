@@ -4,11 +4,12 @@
 
 @layer base {
   :root {
-    --s21-primary: #1a1a2e; /* dark navy */
-    --s21-secondary: #e94560; /* accent red */
-    --s21-tertiary: #0f3460; /* medium blue */
+    /* RoofER brand palette */
+    --s21-primary: #111111; /* near-black background */
+    --s21-secondary: #c1121f; /* brand red (ER) */
+    --s21-tertiary: #1a1a1a; /* dark graphite */
     --s21-text: #ffffff;
-    --s21-text-secondary: #a8b2d1;
+    --s21-text-secondary: #b1b1b1; /* soft gray */
     --s21-success: #10b981;
     --s21-warning: #f59e0b;
   }
@@ -87,14 +88,14 @@
   }
   .s21-nav-btn .icon { width: 24px; height: 24px; margin-right: 12px; }
   .s21-nav-btn:hover {
-    background: rgba(233,69,96,0.15);
+    background: color-mix(in srgb, var(--s21-secondary) 18%, transparent);
     border-color: var(--s21-secondary);
     transform: translateX(8px);
-    box-shadow: 0 4px 12px rgba(233,69,96,0.3);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--s21-secondary) 35%, transparent);
     color: #fff;
   }
   .s21-nav-btn.active {
-    background: linear-gradient(135deg, #e94560 0%, #ff6b88 100%);
+    background: linear-gradient(135deg, #c1121f 0%, #7f1d1d 100%);
     border-color: transparent; color: #fff;
   }
   .s21-nav-btn.active .icon { color: #fff; }

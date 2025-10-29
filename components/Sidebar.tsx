@@ -9,7 +9,7 @@ import {
   Radio
 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import Logo from './icons/Logo';
+import BrandLogo from './icons/BrandLogo';
 
 type PanelType = 'chat' | 'image' | 'transcribe' | 'email' | 'maps' | 'live' | 'knowledge';
 
@@ -32,7 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activePanel, setActivePanel }) => {
   return (
     <div className="hidden md:flex flex-col w-80 s21-sidebar text-white">
       <div className="flex items-center justify-center h-24 border-b border-white/10">
-        <Logo className="h-12" />
+        <BrandLogo className="h-12" />
       </div>
       <nav className="flex-1 px-4 py-6 space-y-3">
         {navItems.map((item) => {
