@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../src/sa21-chat.css';
 import { searchMaps } from '../services/geminiService';
 import Spinner from './Spinner';
 import { GroundingChunk } from '../types';
@@ -53,28 +54,47 @@ const MapsPanel: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-zinc-800 p-4 space-y-4">
-      <h2 className="text-xl font-bold text-white border-b border-zinc-600 pb-2">Maps Search</h2>
-      <div className="flex items-center">
+    <div className="sa21-root">
+      <div className="sa21-header" style={{ position: 'relative' }}>
+        <div className="sa21-logo-row">
+          <div className="sa21-logo">ROOF ER</div>
+          <div className="sa21-title">S21 FIELD // Maps</div>
+        </div>
+        <div className="sa21-actions-bar">
+          <a className="sa21-topbtn" href="#chat">Chat</a>
+          <a className="sa21-topbtn" href="#image">Image</a>
+          <a className="sa21-topbtn" href="#email">Email</a>
+        </div>
+      </div>
+      <div className="sa21-main">
+        <aside className="sa21-quick">
+          <h3>Quick Actions</h3>
+          <button className="qa-btn" onClick={() => setQuery('roofing supply near me')}>Roof supply near me</button>
+          <button className="qa-btn" onClick={() => setQuery('dumpsters near me')}>Dumpsters near me</button>
+        </aside>
+        <section className="sa21-chat">
+          <div className="sa21-chat-header">Maps Search</div>
+          <div className="sa21-page-body">
+            <div className="flex items-center">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           placeholder="e.g., 'What good Italian restaurants are nearby?'"
-          className="flex-1 p-3 bg-zinc-900 border border-zinc-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-600 text-white"
+          className="flex-1 p-3 bg-transparent border border-white/20 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[var(--s21-secondary)]/40 text-white"
           disabled={isLoading}
         />
         <button
           onClick={handleSearch}
           disabled={!query.trim() || isLoading}
-          className="bg-red-700 text-white px-6 py-3 rounded-r-lg hover:bg-red-800 disabled:bg-red-900 disabled:cursor-not-allowed flex items-center justify-center"
+          className="sa21-btn send px-6 py-3 rounded-r-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isLoading ? <Spinner /> : 'Search'}
         </button>
       </div>
       {locationError && <p className="text-yellow-400 text-sm">{locationError}</p>}
-      <div className="flex-1 bg-zinc-900 rounded-lg p-4 overflow-y-auto border border-zinc-700">
+      <div className="flex-1 rounded-lg p-4 overflow-y-auto border border-white/15 bg-white/5 mt-4">
         <h3 className="text-lg font-semibold mb-2 text-zinc-300">Search Result</h3>
         {error && <p className="text-red-400">{error}</p>}
         {resultText && <p className="whitespace-pre-wrap text-zinc-200">{resultText}</p>}
@@ -108,6 +128,9 @@ const MapsPanel: React.FC = () => {
             </div>
           </div>
         )}
+      </div>
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 // Fix: Implement the LivePanel component for real-time audio conversation.
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import '../src/sa21-chat.css';
 import { connectLiveConversation } from '../services/geminiService';
 import { LiveServerMessage, LiveSession } from '@google/genai';
 import { encode, decode, decodeAudioData } from '../utils/audio';
@@ -165,10 +166,28 @@ const LivePanel: React.FC = () => {
   }, [stopConversationResources]);
 
   return (
-    <div className="flex flex-col h-full bg-zinc-800 p-4 space-y-4">
-      <h2 className="text-xl font-bold text-white border-b border-zinc-600 pb-2">Live Conversation</h2>
-      <div className="flex-1 flex flex-col">
-        <div className="bg-zinc-900 rounded-lg p-4 flex-1 overflow-y-auto border border-zinc-700">
+    <div className="sa21-root">
+      <div className="sa21-header" style={{ position: 'relative' }}>
+        <div className="sa21-logo-row">
+          <div className="sa21-logo">ROOF ER</div>
+          <div className="sa21-title">S21 FIELD // Live</div>
+        </div>
+        <div className="sa21-actions-bar">
+          <a className="sa21-topbtn" href="#chat">Chat</a>
+          <a className="sa21-topbtn" href="#image">Image</a>
+          <a className="sa21-topbtn" href="#email">Email</a>
+        </div>
+      </div>
+      <div className="sa21-main">
+        <aside className="sa21-quick">
+          <h3>Quick Actions</h3>
+          <button className="qa-btn" onClick={() => !isLive && startConversation()}>Start Live</button>
+          <button className="qa-btn" onClick={() => isLive && stopConversation()}>Stop</button>
+        </aside>
+        <section className="sa21-chat">
+          <div className="sa21-chat-header">Live Conversation</div>
+          <div className="sa21-page-body">
+        <div className="rounded-lg p-4 flex-1 overflow-y-auto border border-white/15 bg-white/5">
           {transcriptionHistory.length === 0 && !isLive && (
             <p className="text-zinc-500">Conversation transcript will appear here...</p>
           )}
@@ -183,13 +202,13 @@ const LivePanel: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
-      <div className="flex flex-col items-center space-y-4 pt-4">
+          </div>
+          <div className="flex flex-col items-center space-y-4 pt-4">
         {error && <p className="text-red-400">{error}</p>}
         {!isLive ? (
           <button
             onClick={startConversation}
-            className="bg-red-700 text-white px-6 py-3 rounded-full hover:bg-red-800 flex items-center space-x-2 text-lg font-semibold"
+            className="sa21-btn send px-6 py-3 rounded-full flex items-center space-x-2 text-lg font-semibold"
           >
             <MicIcon className="h-6 w-6" />
             <span>Start Conversation</span>
@@ -198,7 +217,7 @@ const LivePanel: React.FC = () => {
           <div className="flex items-center space-x-4">
             <button
               onClick={stopConversation}
-              className="bg-zinc-600 text-white px-6 py-3 rounded-full hover:bg-zinc-500 flex items-center space-x-2 text-lg font-semibold"
+              className="sa21-topbtn px-6 py-3 rounded-full flex items-center space-x-2 text-lg font-semibold"
             >
               <div className="h-6 w-6 flex items-center justify-center">
                 <div className="h-3 w-3 bg-white rounded-sm"></div>
@@ -211,6 +230,8 @@ const LivePanel: React.FC = () => {
             </div>
           </div>
         )}
+          </div>
+        </section>
       </div>
     </div>
   );

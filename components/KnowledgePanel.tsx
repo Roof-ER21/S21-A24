@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../src/sa21-chat.css';
 import Spinner from './Spinner';
 import { knowledgeService, Document, DocumentContent } from '../services/knowledgeService';
 import { BookOpen, Search, FileText, Presentation, FileSpreadsheet, File, Sparkles } from 'lucide-react';
@@ -122,21 +123,28 @@ const KnowledgePanel: React.FC = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-950">
-      {/* Header */}
-      <div className="p-6 border-b border-zinc-800/50 backdrop-blur-sm">
-        <div className="flex items-center space-x-3 mb-4">
-          <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-lg shadow-red-600/30">
-            <BookOpen className="h-5 w-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white">Knowledge Base</h1>
-            <p className="text-xs text-zinc-400">Search roofing sales materials and training docs</p>
-          </div>
+    <div className="sa21-root">
+      <div className="sa21-header" style={{ position: 'relative' }}>
+        <div className="sa21-logo-row">
+          <div className="sa21-logo">ROOF ER</div>
+          <div className="sa21-title">S21 FIELD // Knowledge</div>
         </div>
-
-        {/* Search Bar */}
-        <div className="flex gap-2">
+        <div className="sa21-actions-bar">
+          <a className="sa21-topbtn" href="#chat">Chat</a>
+          <a className="sa21-topbtn" href="#image">Image</a>
+          <a className="sa21-topbtn" href="#email">Email</a>
+        </div>
+      </div>
+      <div className="sa21-main">
+        <aside className="sa21-quick">
+          <h3>Quick Actions</h3>
+          <button className="qa-btn" onClick={() => setSearchQuery('GAF Timberline HDZ specs')}>GAF HDZ specs</button>
+          <button className="qa-btn" onClick={() => setSearchQuery('hail damage roof code')}>Hail damage code</button>
+        </aside>
+        <section className="sa21-chat">
+          <div className="sa21-chat-header">Knowledge Base</div>
+          <div className="sa21-page-body">
+        <div className="flex gap-2 mb-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <Input
@@ -156,9 +164,8 @@ const KnowledgePanel: React.FC = () => {
             {loading ? <Spinner /> : <><Search className="h-4 w-4 mr-2" /> Search</>}
           </Button>
         </div>
-      </div>
-
-      <div className="flex-1 flex overflow-hidden">
+          </div>
+          <div className="flex-1 flex overflow-hidden">
         {/* Document List */}
         <ScrollArea className="w-80 border-r border-white/10 scrollbar-thin scrollbar-track-zinc-900 scrollbar-thumb-zinc-700">
           <div className="p-4">
@@ -353,6 +360,8 @@ const KnowledgePanel: React.FC = () => {
             </div>
           )}
         </ScrollArea>
+          </div>
+        </section>
       </div>
 
       {/* Stats Footer */}
