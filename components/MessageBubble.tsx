@@ -126,7 +126,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ id, text, sender, timesta
           )}
 
           <div className="relative z-10">
-            <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap font-medium">
+            <p className="text-[15px] md:text-base leading-7 whitespace-pre-wrap font-medium tracking-[0.01em]">
               {text}
             </p>
           </div>
