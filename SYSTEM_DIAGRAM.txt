@@ -1,0 +1,353 @@
+
+================================================================================
+                    S21-A24 SYSTEM ARCHITECTURE DIAGRAM
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          USER INTERFACE LAYER                               │
+│                                                                             │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────────────────┐  │
+│  │  Chat Interface │  │ Voice Interface │  │  Knowledge Search Panel  │  │
+│  │   (Messages)    │  │  (Transcribe)   │  │    (Document Search)     │  │
+│  └────────┬────────┘  └────────┬────────┘  └───────────┬──────────────┘  │
+│           │                    │                        │                  │
+│           └────────────────────┴───────────┬────────────┘                  │
+│                                            │                               │
+│                          ┌─────────────────▼─────────────────┐            │
+│                          │   StatusDashboard.tsx             │            │
+│                          │  (Floating Monitor - Bottom Right)│            │
+│                          └─────────────────┬─────────────────┘            │
+└────────────────────────────────────────────┼──────────────────────────────┘
+                                             │
+┌────────────────────────────────────────────┼──────────────────────────────┐
+│                      INTEGRATION LAYER                                     │
+│                                            │                               │
+│                      ┌─────────────────────▼─────────────────┐            │
+│                      │      ai-system.ts (Central Hub)       │            │
+│                      │   • Auto-initialization               │            │
+│                      │   • Unified API                       │            │
+│                      │   • Error handling                    │            │
+│                      │   • Client management                 │            │
+│                      └─────────┬──────────┬─────────┬────────┘            │
+└────────────────────────────────┼──────────┼─────────┼─────────────────────┘
+                                 │          │         │
+┌────────────────────────────────┼──────────┼─────────┼─────────────────────┐
+│                      INTELLIGENCE LAYER                                    │
+│                                │          │         │                      │
+│     ┌──────────────────────────▼──────┐  │         │                      │
+│     │    ai-router.ts                 │  │         │                      │
+│     │  • Smart routing logic          │  │         │                      │
+│     │  • Request type detection       │◄─┤         │                      │
+│     │  • Urgency evaluation           │  │         │                      │
+│     │  • Cost optimization            │  │         │                      │
+│     │  • Fallback chain               │  │         │                      │
+│     └─────────────┬───────────────────┘  │         │                      │
+│                   │                      │         │                      │
+│     ┌─────────────▼────────────────┐     │         │                      │
+│     │  cost-tracker.ts             │     │         │                      │
+│     │  • Token counting            │◄────┤         │                      │
+│     │  • Real-time cost calc       │     │         │                      │
+│     │  • Budget alerts             │     │         │                      │
+│     │  • Monthly reports           │     │         │                      │
+│     │  • localStorage persist      │     │         │                      │
+│     └──────────────────────────────┘     │         │                      │
+│                                          │         │                      │
+│     ┌────────────────────────────────┐   │         │                      │
+│     │  health-checker.ts             │   │         │                      │
+│     │  • Periodic health checks      │◄──┘         │                      │
+│     │  • Latency monitoring          │             │                      │
+│     │  • Uptime tracking             │             │                      │
+│     │  • Auto fallback selection     │             │                      │
+│     │  • Status persistence          │             │                      │
+│     └────────────────────────────────┘             │                      │
+│                                                    │                      │
+└────────────────────────────────────────────────────┼──────────────────────┘
+                                                     │
+┌────────────────────────────────────────────────────┼──────────────────────┐
+│                      PROVIDER LAYER                │                      │
+│                                                    │                      │
+│        ┌───────────────┬────────────────┬──────────┴─────┬──────────┐    │
+│        │               │                │                │          │    │
+│  ┌─────▼──────┐  ┌────▼─────┐  ┌───────▼────┐  ┌────────▼────────┐ │    │
+│  │  Gemini    │  │  Groq    │  │ Together   │  │  HuggingFace    │ │    │
+│  │  (Google)  │  │ (Ultra   │  │    AI      │  │   (Inference)   │ │    │
+│  │            │  │  Fast)   │  │ (Balanced) │  │   (Cheapest)    │ │    │
+│  ├────────────┤  ├──────────┤  ├────────────┤  ├─────────────────┤ │    │
+│  │ FREE TIER  │  │ $0.05-   │  │ $0.18/1M   │  │ $0.05/1M tokens │ │    │
+│  │ 1,500 RPD  │  │ $0.08/1M │  │   tokens   │  │  (Free tier)    │ │    │
+│  ├────────────┤  ├──────────┤  ├────────────┤  ├─────────────────┤ │    │
+│  │ Use Cases: │  │Use Cases:│  │ Use Cases: │  │  Use Cases:     │ │    │
+│  │ • Voice    │  │• Urgent  │  │ • Default  │  │ • Knowledge     │ │    │
+│  │ • Image    │  │• Hands-  │  │ • Training │  │   search        │ │    │
+│  │ • Multi-   │  │  free    │  │ • General  │  │ • Document      │ │    │
+│  │   modal    │  │• Fast    │  │ • Balanced │  │   analysis      │ │    │
+│  └────────────┘  └──────────┘  └────────────┘  └─────────────────┘ │    │
+│                                                                       │    │
+└───────────────────────────────────────────────────────────────────────────┘
+
+┌───────────────────────────────────────────────────────────────────────────┐
+│                        DATA PERSISTENCE LAYER                             │
+│                                                                           │
+│  ┌─────────────────────────────────┐  ┌─────────────────────────────┐   │
+│  │  localStorage                   │  │  JSON Export                │   │
+│  │  ┌──────────────────────────┐   │  │  ┌──────────────────────┐   │   │
+│  │  │ s21-a24-cost-tracker     │   │  │  │ cost-data.json       │   │   │
+│  │  │ • Cost entries (30 days) │   │  │  │ • Full cost history  │   │   │
+│  │  │ • Budget config          │   │  │  │ • Budget settings    │   │   │
+│  │  └──────────────────────────┘   │  │  └──────────────────────┘   │   │
+│  │                                  │  │                             │   │
+│  │  ┌──────────────────────────┐   │  │  ┌──────────────────────┐   │   │
+│  │  │ s21-a24-health-status    │   │  │  │ health-report.json   │   │   │
+│  │  │ • Provider health        │   │  │  │ • Health summary     │   │   │
+│  │  │ • Latency history        │   │  │  │ • Uptime stats       │   │   │
+│  │  └──────────────────────────┘   │  │  └──────────────────────┘   │   │
+│  └─────────────────────────────────┘  └─────────────────────────────┘   │
+└───────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+                            ROUTING DECISION FLOW
+================================================================================
+
+                              User Request
+                                   │
+                                   ▼
+                        ┌──────────────────┐
+                        │ ai-system.ts     │
+                        │ sendRequest()    │
+                        └────────┬─────────┘
+                                 │
+                                 ▼
+                        ┌──────────────────┐
+                        │ ai-router.ts     │
+                        │ routeRequest()   │
+                        └────────┬─────────┘
+                                 │
+                ┌────────────────┼────────────────┐
+                │                │                │
+                ▼                ▼                ▼
+         ┌──────────┐     ┌──────────┐    ┌──────────┐
+         │Request   │     │Urgency   │    │Provider  │
+         │Type?     │     │Level?    │    │Health?   │
+         └────┬─────┘     └────┬─────┘    └────┬─────┘
+              │                │               │
+    ┌─────────┼─────────┐      │               │
+    │         │         │      │               │
+voice/img   text    knowledge  │               │
+    │         │         │      │               │
+    ▼         ▼         ▼      ▼               ▼
+  Gemini   Together    HF    Groq         Check Health
+  (FREE)  (BALANCED) (CHEAP) (FAST)       & Fallback
+
+                                 │
+                                 ▼
+                        ┌──────────────────┐
+                        │ Selected Provider│
+                        └────────┬─────────┘
+                                 │
+                ┌────────────────┼────────────────┐
+                │                │                │
+                ▼                ▼                ▼
+         ┌──────────┐     ┌──────────┐    ┌──────────┐
+         │Send to   │     │Track     │    │Update    │
+         │Provider  │────▶│Cost      │    │Health    │
+         └──────────┘     └──────────┘    └──────────┘
+                                 │
+                                 ▼
+                          ┌──────────────┐
+                          │ Return       │
+                          │ Response     │
+                          └──────────────┘
+
+================================================================================
+                          COST TRACKING FLOW
+================================================================================
+
+        Request Sent                  Response Received
+             │                               │
+             ▼                               ▼
+    ┌────────────────┐             ┌────────────────┐
+    │ Start Timer    │             │ Calculate      │
+    │ Estimate Tokens│             │ Actual Tokens  │
+    └────────┬───────┘             └────────┬───────┘
+             │                               │
+             │                               ▼
+             │                      ┌────────────────┐
+             │                      │ Calculate Cost │
+             │                      │ (Provider Rate)│
+             │                      └────────┬───────┘
+             │                               │
+             │                               ▼
+             │                      ┌────────────────┐
+             │                      │ Save Entry     │
+             │                      │ to localStorage│
+             │                      └────────┬───────┘
+             │                               │
+             │                               ▼
+             │                      ┌────────────────┐
+             │                      │ Check Budget   │
+             │                      │ Thresholds     │
+             │                      └────────┬───────┘
+             │                               │
+             │                    ┌──────────┴────────┐
+             │                    │                   │
+             │                    ▼                   ▼
+             │            ┌──────────────┐   ┌──────────────┐
+             │            │ Warning?     │   │ Exceeded?    │
+             │            │ (80%+)       │   │ (100%+)      │
+             │            └──────────────┘   └──────────────┘
+             │                    │                   │
+             └────────────────────┴───────────────────┘
+                                  │
+                                  ▼
+                         ┌────────────────┐
+                         │ Update         │
+                         │ Dashboard      │
+                         └────────────────┘
+
+================================================================================
+                        HEALTH MONITORING FLOW
+================================================================================
+
+    Every 5 Minutes (or Manual Trigger)
+                │
+                ▼
+    ┌───────────────────────┐
+    │ For Each Provider:    │
+    │ • Gemini              │
+    │ • Groq                │
+    │ • Together            │
+    │ • HuggingFace         │
+    └───────┬───────────────┘
+            │
+            ▼
+    ┌───────────────────────┐
+    │ Send Test Request     │
+    │ (Minimal tokens)      │
+    └───────┬───────────────┘
+            │
+            ▼
+    ┌───────────────────────┐
+    │ Measure Latency       │
+    │ (milliseconds)        │
+    └───────┬───────────────┘
+            │
+     ┌──────┴──────┐
+     │             │
+     ▼             ▼
+┌─────────┐   ┌─────────┐
+│Success? │   │Failed?  │
+└────┬────┘   └────┬────┘
+     │             │
+     │             ▼
+     │      ┌──────────────┐
+     │      │ Increment    │
+     │      │ Failure Count│
+     │      └──────┬───────┘
+     │             │
+     └─────────────┘
+            │
+            ▼
+    ┌───────────────────────┐
+    │ Update Status:        │
+    │ • isHealthy           │
+    │ • latency             │
+    │ • errorRate           │
+    │ • uptime              │
+    └───────┬───────────────┘
+            │
+            ▼
+    ┌───────────────────────┐
+    │ Save to localStorage  │
+    └───────┬───────────────┘
+            │
+            ▼
+    ┌───────────────────────┐
+    │ Update Router Status  │
+    └───────┬───────────────┘
+            │
+            ▼
+    ┌───────────────────────┐
+    │ Update Dashboard      │
+    └───────────────────────┘
+
+================================================================================
+                              KEY FEATURES
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 1. SMART ROUTING                                                            │
+│    ✓ Request type detection (voice/image/text/knowledge)                   │
+│    ✓ Urgency evaluation (low/medium/high/urgent)                           │
+│    ✓ Cost optimization (prefer free/cheap providers)                       │
+│    ✓ Automatic fallback (if primary provider fails)                        │
+│                                                                             │
+│ 2. COST TRACKING                                                            │
+│    ✓ Real-time token counting                                              │
+│    ✓ Provider-specific pricing                                             │
+│    ✓ Budget alerts (80% warning, 95% critical, 100% exceeded)              │
+│    ✓ Historical data (30 days retention)                                   │
+│    ✓ Export to JSON                                                        │
+│                                                                             │
+│ 3. HEALTH MONITORING                                                        │
+│    ✓ Periodic checks (every 5 minutes)                                     │
+│    ✓ Latency measurement (milliseconds)                                    │
+│    ✓ Uptime calculation (rolling average)                                  │
+│    ✓ Consecutive failure tracking                                          │
+│    ✓ Fastest provider identification                                       │
+│                                                                             │
+│ 4. STATUS DASHBOARD                                                         │
+│    ✓ Floating button (bottom-right)                                        │
+│    ✓ Cost overview (today/yesterday/month)                                 │
+│    ✓ Provider health cards                                                 │
+│    ✓ System statistics                                                     │
+│    ✓ Manual refresh & export                                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+                          PROVIDER COMPARISON
+================================================================================
+
+┌──────────────┬──────────────┬─────────────┬────────────┬─────────────────┐
+│ Provider     │ Cost/1M      │ Speed       │ Free Tier  │ Best For        │
+├──────────────┼──────────────┼─────────────┼────────────┼─────────────────┤
+│ Gemini       │ $0.00        │ Fast        │ 1,500 RPD  │ Voice, Image    │
+│ Groq         │ $0.05-$0.08  │ Ultra-Fast  │ Generous   │ Urgent, Hands-  │
+│              │              │ (25x GPT-4) │            │ free            │
+│ Together     │ $0.18        │ Medium      │ $25 credit │ Default, Train  │
+│ HuggingFace  │ $0.05        │ Slower      │ Rate-limit │ Knowledge, Docs │
+└──────────────┴──────────────┴─────────────┴────────────┴─────────────────┘
+
+================================================================================
+                            DATA FLOW SUMMARY
+================================================================================
+
+User Input
+    │
+    ├─► Request Type Detection (voice/image/text/knowledge)
+    ├─► Urgency Evaluation (low/medium/high/urgent)
+    ├─► Provider Health Check (is provider available?)
+    │
+    └─► Route to Optimal Provider
+             │
+             ├─► Send Request
+             ├─► Measure Latency
+             ├─► Count Tokens
+             ├─► Calculate Cost
+             ├─► Update Health Status
+             ├─► Check Budget
+             │
+             └─► Return Response
+                      │
+                      ├─► Display Content
+                      ├─► Show Provider Badge
+                      ├─► Show Cost
+                      └─► Update Dashboard
+
+================================================================================
+
+PROJECT: S21-A24 (Susan 21 + Agnes 24)
+COMPANY: Roof-ER
+MISSION: Cost-optimized AI routing with real-time monitoring
+STATUS: Phase 1 Complete ✅
+
+================================================================================
