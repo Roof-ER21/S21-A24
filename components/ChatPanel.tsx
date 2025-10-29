@@ -304,15 +304,15 @@ const ChatPanel: React.FC = () => {
       />
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col h-full p-6">
+      <div className="relative z-10 flex flex-col h-full p-4 md:p-6 max-w-6xl mx-auto w-full">
         {/* Header */}
-        <div className="mb-6 relative">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="s21-header-title">S21 CORE</div>
+        <div className="mb-4 md:mb-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+            <div className="min-w-0">
+              <div className="s21-header-title truncate">S21 CORE</div>
               <div className="s21-header-subtitle">Field Assistant</div>
             </div>
-            <div className="absolute right-0 top-0 flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {/* State Selector Toggle */}
               <Button
                 type="button"
@@ -343,7 +343,7 @@ const ChatPanel: React.FC = () => {
               </Button>
 
               <div className="s21-provider-pill">
-                <Zap className="h-3.5 w-3.5 text-[#f59e0b]" />
+                <Zap className="h-3.5 w-3.5 text-[var(--s21-secondary)]" />
                 <span>Provider:</span>
                 <Badge variant="success" className="text-xs">{currentProvider || 'Auto'}</Badge>
               </div>
@@ -428,7 +428,7 @@ const ChatPanel: React.FC = () => {
               exit={{ opacity: 0, y: -10 }}
               className="mb-3"
             >
-              <div className="bg-[#1a1a2e] border border-red-500/30 rounded-lg p-3 text-red-300 text-sm text-center">
+              <div className="bg-black/50 border border-[var(--s21-secondary)]/30 rounded-lg p-3 text-red-300 text-sm text-center">
                 {voiceError}
               </div>
             </motion.div>
@@ -443,14 +443,14 @@ const ChatPanel: React.FC = () => {
           onSubmit={handleSendMessage}
           className="relative"
         >
-          <div className="flex items-center gap-2 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl">
+          <div className="flex items-center gap-2 p-2 md:p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl">
             <div className="flex-1 relative">
               <Input
                 type="text"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder={isVoiceRecording ? "Listening..." : "Type your message..."}
-                className="h-12 bg-transparent border-transparent focus:ring-2 focus:ring-[var(--s21-secondary)]/40 text-white placeholder:text-white/50"
+                className="h-12 md:h-12 bg-transparent border-transparent focus:ring-2 focus:ring-[var(--s21-secondary)]/40 text-white placeholder:text-white/50"
                 disabled={isLoading || isVoiceRecording}
               />
               {userInput && (

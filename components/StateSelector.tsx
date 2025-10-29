@@ -66,11 +66,11 @@ export default function StateSelector({ onStateChange, className = '' }: StateSe
               onClick={() => handleStateSelect(state.value)}
               className={`state-button ${
                 isSelected
-                  ? 'bg-gradient-to-br from-indigo-600 to-blue-700 text-white shadow-lg scale-105'
-                  : 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 text-gray-700 dark:text-gray-300 hover:from-indigo-50 hover:to-blue-50 dark:hover:from-indigo-900 dark:hover:to-blue-900'
+                  ? 'bg-gradient-to-br from-[#c1121f] to-[#7f1d1d] text-white shadow-lg scale-105'
+                  : 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 text-gray-700 dark:text-gray-300 hover:from-red-50 hover:to-red-50/50 dark:hover:from-red-900/30 dark:hover:to-red-900/30'
               } font-bold py-4 px-3 rounded-lg transition-all duration-200 transform hover:scale-105 border-2 ${
                 isSelected
-                  ? 'border-indigo-400'
+                  ? 'border-red-400'
                   : 'border-gray-300 dark:border-gray-600'
               }`}
               aria-pressed={isSelected}
@@ -86,22 +86,22 @@ export default function StateSelector({ onStateChange, className = '' }: StateSe
 
       {/* Selected State Info */}
       {selectedStateInfo && (
-        <div className="selected-state-info bg-indigo-50 dark:bg-indigo-900/30 border-2 border-indigo-300 dark:border-indigo-700 rounded-lg p-4 mb-3">
+        <div className="selected-state-info bg-red-50 dark:bg-red-900/20 border-2 border-red-300 dark:border-red-700 rounded-lg p-4 mb-3">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h4 className="text-lg font-bold text-indigo-900 dark:text-indigo-100">
+              <h4 className="text-lg font-bold text-red-900 dark:text-red-100">
                 {selectedStateInfo.name}
               </h4>
-              <p className="text-sm text-indigo-700 dark:text-indigo-300">
+              <p className="text-sm text-red-700 dark:text-red-300">
                 {selectedStateInfo.ircVersion}
               </p>
-              <p className="text-xs text-indigo-600 dark:text-indigo-400">
+              <p className="text-xs text-red-600 dark:text-red-400">
                 Effective: {selectedStateInfo.ircEffectiveDate}
               </p>
             </div>
             <button
               onClick={handleClearState}
-              className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 underline"
+              className="text-xs text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200 underline"
               aria-label="Clear state selection"
             >
               Clear
@@ -111,7 +111,7 @@ export default function StateSelector({ onStateChange, className = '' }: StateSe
           {/* Toggle Details */}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full text-left text-sm font-semibold text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-indigo-100 flex items-center justify-between"
+            className="w-full text-left text-sm font-semibold text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 flex items-center justify-between"
           >
             <span>{isExpanded ? 'Hide Details' : 'Show Details'}</span>
             <svg
@@ -194,7 +194,7 @@ export default function StateSelector({ onStateChange, className = '' }: StateSe
 
               {/* Top Codes by Success Rate */}
               <div className="top-codes">
-                <div className="text-xs font-bold text-indigo-800 dark:text-indigo-200 mb-2">
+                <div className="text-xs font-bold text-red-800 dark:text-red-200 mb-2">
                   TOP CODES BY SUCCESS RATE:
                 </div>
                 <div className="space-y-1">
@@ -207,7 +207,7 @@ export default function StateSelector({ onStateChange, className = '' }: StateSe
                         className="flex items-center justify-between text-xs bg-white dark:bg-gray-800 rounded p-2"
                       >
                         <div>
-                          <span className="font-mono font-bold text-indigo-600 dark:text-indigo-400">
+                          <span className="font-mono font-bold text-red-600 dark:text-red-400">
                             {code.code}
                           </span>
                           <span className="text-gray-600 dark:text-gray-400 ml-2">
