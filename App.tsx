@@ -37,7 +37,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="h-screen font-sans s21-main-bg relative">
+    <div className="min-h-screen h-screen font-sans s21-main-bg relative">
       {/* Mobile header */}
       <MobileHeader activePanel={activePanel} setActivePanel={setActivePanel} />
 
@@ -45,7 +45,7 @@ const App: React.FC = () => {
       <div className="s21-grid"></div>
 
       {/* Desktop layout */}
-      <div className="md:flex h-full pt-16 md:pt-0">
+      <div className="md:flex h-full pt-20 md:pt-0">
         <Sidebar activePanel={activePanel} setActivePanel={setActivePanel} />
         <main className="flex-1 overflow-auto">
           {renderPanel()}
