@@ -363,6 +363,28 @@ const ChatPanel: React.FC = () => {
           {/* Conversation */}
           <div className="sa21-convo" id="conversation">
             <div className="sa21-convo-bottom">
+              {messages.length === 0 ? (
+                <div style={{display:'grid', placeItems:'center', minHeight:'50vh'}}>
+                  <div style={{textAlign:'center', maxWidth:700}}>
+                    <div style={{fontSize:24, fontWeight:800, color:'#fff', marginBottom:12}}>
+                      Hey there! I'm S21, your AI‑powered roofing expert.
+                    </div>
+                    <div style={{color:'#bfbfbf', lineHeight:1.6, marginBottom:24}}>
+                      I’ve got instant access to 123+ industry documents and I’m running on 4 different AI systems working together to give you the best answers. Whether it’s GAF product specs, sales scripts, or handling tough customer questions — I’ve got your back.
+                    </div>
+                    <div style={{display:'flex', gap:32, justifyContent:'center', color:'#e5e5e5', marginBottom:28}}>
+                      <div><div style={{fontSize:28, fontWeight:900, color:'#c41e3a'}}>123+</div><div style={{fontSize:10, letterSpacing:2, opacity:.8}}>DOCUMENTS</div></div>
+                      <div><div style={{fontSize:28, fontWeight:900, color:'#c41e3a'}}>4</div><div style={{fontSize:10, letterSpacing:2, opacity:.8}}>AI SYSTEMS</div></div>
+                      <div><div style={{fontSize:28, fontWeight:900, color:'#c41e3a'}}>24/7</div><div style={{fontSize:10, letterSpacing:2, opacity:.8}}>AVAILABLE</div></div>
+                    </div>
+                    <div style={{display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center'}}>
+                      {['GAF Specs','Price Objection','VA Claim Docs','Measurements','Safety','Warranties'].map((t)=> (
+                        <button key={t} className="sa21-topbtn" onClick={()=>setUserInput(t)}>{t}</button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
               <div className="sa21-msg">
                 <div className="avatar">S21</div>
                 <div>
@@ -372,6 +394,7 @@ const ChatPanel: React.FC = () => {
                   <div className="sa21-time">{new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div>
                 </div>
               </div>
+              )}
               {messages.map((msg, index) => (
                 <div key={msg.id} className={`sa21-msg ${msg.sender === 'user' ? 'user' : ''}`}>
                   {msg.sender !== 'user' && <div className="avatar">S21</div>}
