@@ -321,8 +321,8 @@ const ChatPanel: React.FC = () => {
                 size="sm"
                 className={`h-8 px-3 rounded-lg ${
                   selectedState
-                    ? 'bg-indigo-600 text-white border-indigo-500 hover:bg-indigo-700'
-                    : 'bg-zinc-100 text-zinc-700 border-zinc-300 hover:bg-zinc-200'
+                    ? 'bg-[var(--s21-secondary)]/90 text-white border-transparent hover:brightness-110'
+                    : 'bg-white/5 text-white/90 border-white/20 hover:bg-white/10'
                 }`}
                 title="State-specific codes"
               >
@@ -334,9 +334,8 @@ const ChatPanel: React.FC = () => {
               <Button
                 type="button"
                 onClick={() => setShowRoleplayModal(true)}
-                variant="outline"
                 size="sm"
-                className="h-8 px-3 rounded-lg bg-purple-600 text-white border-purple-500 hover:bg-purple-700"
+                className="h-8 px-3 rounded-lg"
                 title="Agnes 24 Training"
               >
                 <GraduationCap className="h-3.5 w-3.5 mr-1" />
@@ -363,7 +362,7 @@ const ChatPanel: React.FC = () => {
             >
               <StateSelector
                 onStateChange={(state) => setSelectedState(state || null)}
-                className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-zinc-200"
+                className="s21-card-glass rounded-xl p-4"
               />
             </motion.div>
           )}
@@ -444,14 +443,14 @@ const ChatPanel: React.FC = () => {
           onSubmit={handleSendMessage}
           className="relative"
         >
-          <div className="flex items-center gap-2 p-3 rounded-2xl bg-white border border-zinc-200 shadow-lg">
+          <div className="flex items-center gap-2 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md shadow-xl">
             <div className="flex-1 relative">
               <Input
                 type="text"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder={isVoiceRecording ? "Listening..." : "Type your message..."}
-                className="h-12 bg-white border-zinc-300 focus:border-red-600 focus:ring-2 focus:ring-red-600/20 text-zinc-900 placeholder:text-zinc-500"
+                className="h-12 bg-transparent border-transparent focus:ring-2 focus:ring-[var(--s21-secondary)]/40 text-white placeholder:text-white/50"
                 disabled={isLoading || isVoiceRecording}
               />
               {userInput && (
@@ -460,7 +459,7 @@ const ChatPanel: React.FC = () => {
                   animate={{ scale: 1 }}
                   className="absolute right-3 top-1/2 -translate-y-1/2"
                 >
-                  <Sparkles className="h-4 w-4 text-red-500" />
+                  <Sparkles className="h-4 w-4 text-[var(--s21-secondary)]" />
                 </motion.div>
               )}
             </div>
@@ -472,8 +471,8 @@ const ChatPanel: React.FC = () => {
                 size="icon"
                 className={`h-12 w-12 rounded-xl ${
                   isVoiceRecording
-                    ? 'bg-gradient-to-br from-red-600 to-red-700 shadow-lg shadow-red-600/30 animate-pulse text-white'
-                    : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-900'
+                    ? 'bg-gradient-to-br from-[var(--s21-secondary)] to-[#7f1d1d] shadow-lg shadow-red-600/30 animate-pulse text-white'
+                    : 'bg-white/10 hover:bg-white/20 text-white'
                 }`}
                 disabled={isLoading}
               >
@@ -484,7 +483,7 @@ const ChatPanel: React.FC = () => {
               <Button
                 type="submit"
                 disabled={!userInput.trim() || isLoading || isVoiceRecording}
-                className="h-12 px-6 rounded-xl bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 shadow-lg shadow-red-600/30 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-12 px-6 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <Spinner />
