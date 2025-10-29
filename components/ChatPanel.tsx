@@ -369,7 +369,7 @@ const ChatPanel: React.FC = () => {
         </AnimatePresence>
 
         {/* Messages Area or Welcome Screen */}
-        <div className="flex-1 overflow-hidden mb-4">
+        <div className="flex-1 overflow-hidden mb-4 md:mb-6 mt-2">
           <AnimatePresence mode="wait">
             {showWelcome ? (
               <motion.div

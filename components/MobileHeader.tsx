@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, MessageSquare, Image, Mic, Mail, Map, Radio, BookOpen } from 'lucide-react';
 import BrandLogo from './icons/BrandLogo';
@@ -13,6 +13,8 @@ interface MobileHeaderProps {
 
 const MobileHeader: React.FC<MobileHeaderProps> = ({ activePanel, setActivePanel }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const menuBtnRef = useRef<HTMLButtonElement>(null);
 
   const menuItems = [
     { id: 'chat', label: 'Chat', icon: MessageSquare },
@@ -60,6 +62,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ activePanel, setActivePanel
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="h-10 w-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shadow-lg touch-target"
+            ref={menuBtnRef}
           >
             <AnimatePresence mode="wait">
               {isMenuOpen ? (
@@ -109,6 +112,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ activePanel, setActivePanel
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="md:hidden fixed top-0 right-0 bottom-0 w-[280px] backdrop-blur-xl border-l border-white/10 z-50 overflow-y-auto"
               style={{ background: 'linear-gradient(180deg, #0d0d0d 0%, #1f1f1f 100%)' }}
+              ref={drawerRef}
             >
               {/* Header */}
               <div className="p-6 border-b border-white/10">
@@ -183,8 +187,32 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ activePanel, setActivePanel
           </>
         )}
       </AnimatePresence>
+      {/* Global close interactions */}
+      <CloseOnOutside isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} drawerRef={drawerRef} triggerRef={menuBtnRef} />
     </>
   );
 };
+
+function CloseOnOutside({ isOpen, onClose, drawerRef, triggerRef }: { isOpen: boolean; onClose: () => void; drawerRef: React.RefObject<HTMLElement>; triggerRef: React.RefObject<HTMLElement> }) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    const onDown = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (drawerRef.current?.contains(target)) return;
+      if (triggerRef.current?.contains(target)) return;
+      onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('mousedown', onDown);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('mousedown', onDown);
+    };
+  }, [isOpen, onClose, drawerRef, triggerRef]);
+  return null;
+}
 
 export default MobileHeader;
