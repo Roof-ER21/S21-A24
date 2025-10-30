@@ -53,14 +53,14 @@ export function StatusDashboard() {
 
       {/* Dashboard Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-white/15 bg-[#111]/95">
             {/* Header */}
-            <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+            <div className="sticky top-0 bg-gradient-to-r from-[#7f1d1d] to-[#c1121f] p-6 text-white">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-bold">S21-A24 Status Dashboard</h2>
-                  <p className="text-blue-100 text-sm">Real-time system monitoring</p>
+                  <p className="text-white/80 text-sm">Real-time system monitoring</p>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
@@ -103,8 +103,8 @@ export function StatusDashboard() {
               {/* Cost Overview */}
               <section>
                 <div className="flex items-center gap-2 mb-4">
-                  <DollarSign className="w-5 h-5 text-green-600" />
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">Cost Overview</h3>
+                  <DollarSign className="w-5 h-5 text-green-400" />
+                  <h3 className="text-xl font-bold text-white">Cost Overview</h3>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -114,17 +114,17 @@ export function StatusDashboard() {
                   <CostCard label="Total" value={costSummary.total} />
                 </div>
 
-                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
+                  <p className="text-sm font-medium text-white/80 mb-2">
                     Cost by Provider
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     {Object.entries(costSummary.byProvider).map(([provider, cost]) => (
                       <div key={provider} className="flex justify-between">
-                        <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+                        <span className="text-sm text-white/70 capitalize">
                           {provider}:
                         </span>
-                        <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                        <span className="text-sm font-semibold text-white">
                           ${cost.toFixed(4)}
                         </span>
                       </div>
@@ -136,8 +136,8 @@ export function StatusDashboard() {
               {/* Provider Health */}
               <section>
                 <div className="flex items-center gap-2 mb-4">
-                  <Activity className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">Provider Health</h3>
+                  <Activity className="w-5 h-5 text-[var(--s21-secondary)]" />
+                  <h3 className="text-xl font-bold text-white">Provider Health</h3>
                 </div>
 
                 <div className="space-y-3">
@@ -154,8 +154,8 @@ export function StatusDashboard() {
               {/* System Stats */}
               <section>
                 <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp className="w-5 h-5 text-purple-600" />
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">System Stats</h3>
+                  <TrendingUp className="w-5 h-5 text-[var(--s21-secondary)]" />
+                  <h3 className="text-xl font-bold text-white">System Stats</h3>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -218,9 +218,9 @@ export function StatusDashboard() {
 
 function CostCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-200 dark:border-green-800">
-      <p className="text-sm text-gray-600 dark:text-gray-400">{label}</p>
-      <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+    <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+      <p className="text-sm text-white/70">{label}</p>
+      <p className="text-2xl font-bold text-white mt-1">
         ${value.toFixed(4)}
       </p>
     </div>
@@ -235,44 +235,36 @@ function ProviderStatusCard({
   status: any;
 }) {
   return (
-    <div
-      className={`
-        p-4 rounded-lg border-2 transition
-        ${status.isHealthy
-          ? 'bg-green-50 dark:bg-green-900/20 border-green-500'
-          : 'bg-red-50 dark:bg-red-900/20 border-red-500'
-        }
-      `}
-    >
+    <div className={`p-4 rounded-lg border transition ${status.isHealthy ? 'bg-white/5 border-white/10' : 'bg-red-900/20 border-red-600/50'}`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           {status.isHealthy ? (
-            <CheckCircle className="w-5 h-5 text-green-600" />
+            <CheckCircle className="w-5 h-5 text-green-400" />
           ) : (
-            <XCircle className="w-5 h-5 text-red-600" />
+            <XCircle className="w-5 h-5 text-red-500" />
           )}
           <div>
-            <p className="font-semibold text-gray-900 dark:text-white capitalize">
+            <p className="font-semibold text-white capitalize">
               {provider}
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-white/70">
               {status.isHealthy ? 'Healthy' : status.errorMessage || 'Unavailable'}
             </p>
           </div>
         </div>
 
         <div className="text-right">
-          <p className="text-lg font-bold text-gray-900 dark:text-white">
+          <p className="text-lg font-bold text-white">
             {status.latency}ms
           </p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">
+          <p className="text-xs text-white/70">
             {status.uptime.toFixed(1)}% uptime
           </p>
         </div>
       </div>
 
       {status.consecutiveFailures > 0 && (
-        <p className="mt-2 text-xs text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs text-red-400">
           {status.consecutiveFailures} consecutive failures
         </p>
       )}
@@ -292,12 +284,12 @@ function StatCard({
   className?: string;
 }) {
   return (
-    <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-      <div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 mb-1">
+    <div className="p-4 bg-white/5 rounded-lg border border-white/10">
+      <div className="flex items-center gap-2 text-[var(--s21-secondary)] mb-1">
         {icon}
         <p className="text-sm">{label}</p>
       </div>
-      <p className={`text-xl font-bold text-gray-900 dark:text-white ${className}`}>
+      <p className={`text-xl font-bold text-white ${className}`}>
         {value}
       </p>
     </div>

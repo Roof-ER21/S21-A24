@@ -48,10 +48,12 @@ const App: React.FC = () => {
     }
   };
 
+  const isSa21 = ['chat','image','transcribe','email','maps','live','knowledge'].includes(activePanel);
+
   return (
     <div className="min-h-screen h-screen font-sans s21-main-bg relative">
-      {/* Mobile header (hide on Chat to allow custom header) */}
-      {activePanel !== 'chat' && (
+      {/* Hide global mobile header on all SA21 pages to avoid duplicate chrome */}
+      {!isSa21 && (
         <MobileHeader activePanel={activePanel} setActivePanel={setActivePanel} />
       )}
 
@@ -60,8 +62,8 @@ const App: React.FC = () => {
 
       {/* Desktop layout */}
       <div className="md:flex h-full pt-20 md:pt-0">
-        {/* Hide global sidebar on Chat so page can use its own quick actions */}
-        {activePanel !== 'chat' && (
+        {/* Hide global sidebar on all SA21 pages */}
+        {!isSa21 && (
           <Sidebar activePanel={activePanel} setActivePanel={setActivePanel} />
         )}
         <main className="flex-1 overflow-auto">
