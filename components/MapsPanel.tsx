@@ -95,13 +95,13 @@ const MapsPanel: React.FC = () => {
       </div>
       {locationError && <p className="text-yellow-400 text-sm">{locationError}</p>}
       <div className="flex-1 rounded-lg p-4 overflow-y-auto border border-white/15 bg-white/5 mt-4">
-        <h3 className="text-lg font-semibold mb-2 text-zinc-300">Search Result</h3>
+        <h3 className="text-lg font-semibold mb-2 text-white">Search Result</h3>
         {error && <p className="text-red-400">{error}</p>}
-        {resultText && <p className="whitespace-pre-wrap text-zinc-200">{resultText}</p>}
+        {resultText && <p className="whitespace-pre-wrap text-white/90">{resultText}</p>}
 
         {chunks.length > 0 && (
           <div className="mt-4 pt-4 border-t border-zinc-700">
-            <h4 className="font-semibold text-zinc-400 mb-2">Sources:</h4>
+            <h4 className="font-semibold text-white/70 mb-2">Sources:</h4>
             <ul className="list-disc list-inside space-y-1">
               {chunks.map((chunk, index) => {
                 const source = chunk.maps || chunk.web;
@@ -119,11 +119,11 @@ const MapsPanel: React.FC = () => {
         )}
 
         {!isLoading && !resultText && !error && (
-          <p className="text-zinc-500">Results will appear here.</p>
+          <p className="text-white/60">Results will appear here.</p>
         )}
         {isLoading && (
           <div className="flex items-center justify-center h-full">
-            <div className="flex items-center text-zinc-400">
+            <div className="flex items-center text-white/70">
               <Spinner /> Searching...
             </div>
           </div>

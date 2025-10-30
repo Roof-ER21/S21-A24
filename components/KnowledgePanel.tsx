@@ -153,13 +153,13 @@ const KnowledgePanel: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               placeholder="Search for sales tactics, product info, guidelines..."
-              className="pl-10 h-11 bg-zinc-800/50 border-zinc-700"
+              className="pl-10 h-11 bg-transparent border-white/20 text-white placeholder:text-white/50"
             />
           </div>
           <Button
             onClick={handleSearch}
             disabled={loading}
-            className="h-11 px-6 shadow-lg shadow-red-600/30"
+            className="h-11 px-6 sa21-btn send"
           >
             {loading ? <Spinner /> : <><Search className="h-4 w-4 mr-2" /> Search</>}
           </Button>
@@ -195,7 +195,7 @@ const KnowledgePanel: React.FC = () => {
                   key={idx}
                   className={`cursor-pointer transition-all duration-200 hover:scale-[1.02] ${
                     selectedDoc?.name === doc.name
-                      ? 'bg-gradient-to-br from-[#e94560] to-[#ff6b88] border-transparent shadow-lg'
+                      ? 'bg-gradient-to-br from-[#c1121f] to-[#7f1d1d] border-transparent shadow-lg'
                       : 'bg-white/5 border-white/10 hover:bg-white/10'
                   }`}
                   onClick={() => loadDocument(doc)}
@@ -203,19 +203,19 @@ const KnowledgePanel: React.FC = () => {
                   <CardContent className="p-3">
                     <div className="flex items-start gap-3">
                       <div className={`p-2 rounded-lg ${
-                        selectedDoc?.name === doc.name ? 'bg-white/20' : 'bg-zinc-900'
+                        selectedDoc?.name === doc.name ? 'bg-white/20' : 'bg-white/5 border border-white/10'
                       }`}>
                         {getDocIcon(doc.type)}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className={`font-medium truncate text-sm ${
-                          selectedDoc?.name === doc.name ? 'text-white' : 'text-zinc-200'
+                          selectedDoc?.name === doc.name ? 'text-white' : 'text-white/90'
                         }`}>
                           {doc.name}
                         </div>
                         {doc.category && (
                           <div className={`text-xs mt-1 ${
-                            selectedDoc?.name === doc.name ? 'text-white/70' : 'text-zinc-500'
+                            selectedDoc?.name === doc.name ? 'text-white/70' : 'text-white/60'
                           }`}>
                             {doc.category}
                           </div>

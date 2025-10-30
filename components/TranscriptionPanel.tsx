@@ -129,7 +129,7 @@ const TranscriptionPanel: React.FC = () => {
           <div className="sa21-chat-header">Transcribe Note</div>
           <div className="sa21-page-body">
         <div className="rounded-lg p-4 flex-1 overflow-y-auto border border-white/15 bg-white/5">
-          <p className="whitespace-pre-wrap text-zinc-200">
+          <p className="whitespace-pre-wrap text-white/90">
             {transcription || <span className="text-zinc-500">Your transcribed text will appear here...</span>}
           </p>
         </div>

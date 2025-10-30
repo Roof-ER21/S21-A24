@@ -189,15 +189,15 @@ const LivePanel: React.FC = () => {
           <div className="sa21-page-body">
         <div className="rounded-lg p-4 flex-1 overflow-y-auto border border-white/15 bg-white/5">
           {transcriptionHistory.length === 0 && !isLive && (
-            <p className="text-zinc-500">Conversation transcript will appear here...</p>
+            <p className="text-white/60">Conversation transcript will appear here...</p>
           )}
           <div className="space-y-4">
             {transcriptionHistory.map((turn) => (
               <div key={turn.id}>
-                <p className="text-zinc-400 font-semibold">You:</p>
-                <p className="text-zinc-200 ml-4">{turn.userInput}</p>
-                <p className="text-red-400 font-semibold mt-2">S21:</p>
-                <p className="text-zinc-200 ml-4">{turn.modelOutput}</p>
+                <p className="text-white/70 font-semibold">You:</p>
+                <p className="text-white/90 ml-4">{turn.userInput}</p>
+                <p className="text-[var(--s21-secondary)] font-semibold mt-2">S21:</p>
+                <p className="text-white/90 ml-4">{turn.modelOutput}</p>
               </div>
             ))}
           </div>

@@ -118,12 +118,12 @@ const ImageAnalysisPanel: React.FC = () => {
         {/* Right Side: Result */}
         <div className="md:w-1/2 flex flex-col">
           <div className="flex-1 rounded-lg p-4 overflow-y-auto border border-white/15 bg-white/5">
-            <h3 className="text-lg font-semibold mb-2 text-zinc-300">Analysis Result</h3>
+            <h3 className="text-lg font-semibold mb-2 text-white">Analysis Result</h3>
             {error && <p className="text-red-400">{error}</p>}
             {result ? (
-              <p className="whitespace-pre-wrap text-zinc-200">{result}</p>
+              <p className="whitespace-pre-wrap text-white/90">{result}</p>
             ) : (
-              !isLoading && <p className="text-zinc-500">Analysis will appear here.</p>
+              !isLoading && <p className="text-white/60">Analysis will appear here.</p>
             )}
             {isLoading && (
               <div className="flex items-center justify-center h-full">
